@@ -1,9 +1,29 @@
 const express = require('express');
 const axios = require('axios');
+const Anthropic = require('@anthropic-ai/sdk');
 const app = express();
 app.use(express.json());
 
-const PAGE_ACCESS_TOKEN = 'EAANw5phuolEBRZATSinvklp0yhMZBOmD13zoGmB2pW67llYx0rMSXVSm74wGh3APa5vfyHGCDuhzD429AIO8ZAwZAmAtemHdBP6D8wFvgRa8w2eSZC9gKirj5gpj7wCoPeXYpisf1wUmlNSS7ybZAzVGZC8vFtz82snA6Ch0MBudYYGHSSJdPxY5WybJnoepf8p257QhMMufGSmBg78S2GtPCXL'
+const PAGE_ACCESS_TOKEN = 'EAANw5phuolEBRZATSinvklp0yhMZBOmD13zoGmB2pW67llYx0rMSXVSm74wGh3APa5vfyHGCDuhzD429AIO8ZAwZAmAtemHd3vLchxfnFLjhY0qfLEFb9Wy1mGJlumkBBXQAylsBdXuDZBNGbVhDhVgDcpMGFkDLlU0LkCZBqIIQAKl5AKRHBZBRnMf1R3mwW';
+const VERIFY_TOKEN = 'anyarthu_bot_2024';
+const ANTHROPIC_API_KEY = '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';
+
+const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+
+const SYSTEM_PROMPT = `သင်သည် အစည်သူ Express Cargo Service ၏ customer service bot ဖြစ်သည်။
+မြန်မာနိုင်ငံမှ ဂျပန်နိုင်ငံသို့ ပစ္စည်းပို့ဆောင်ရေး ဝန်ဆောင်မှုပေးသည်။
+
+ဖလိုက် ၃ မျိုး ရှိသည်:
+1. EMS Flight - ၅ကီလို ၂၆၂,၅၀၀ကျပ်၊ ၁၀ကီလို ၄၂၅,၀၀၀ကျပ်၊ ၁၅ကီလို ၆၄၅,၀၀၀ကျပ်၊ ၂၀ကီလို ၈၂၀,၀၀၀ကျပ်၊ ကြာချိန် ၇-၁၀ရက်
+2. Group Flight - ၁ကီလို ၃၅,၀၀၀ကျပ် (ပုံမှန်)၊ ၁ကီလို ၃၉,၅၀၀ကျပ် (အဝတ်အစား၊စာအုပ်၊အလှကုန်)၊ ကြာချိန် ၁၀-၁၄ရက်
+3. ရိုးရိုး Flight - ၅ကီလို ၂၀၅,၀၀၀ကျပ်၊ ၁၀ကီလို ၄၀၅,၀၀၀ကျပ်၊ ၁၅ကီလို ၅၅၅,၀၀၀ကျပ်၊ ၂၀ကီလို ၆၈၀,၀၀၀ကျပ်၊ ကြာချိန် ဖလိုက်တင်ပြီး ၁၄ရက်
+
+လိပ်စာ - အမှတ် ၇၇၊ နံ့သာလမ်း၊ ဌာနရပ်ကွက်၊ အလုံမြို့နယ်၊ ရန်ကုန်မြို့
+ဖုန်း - 09-780 955 565၊ 09-782 478 466
+ဖွင့်ချိန် - နံနက် ၉နာရီ မှ ညနေ ၅နာရီ၊ နေ့စဉ် ပိတ်ရက်မရှိ
+
+မြန်မာဘာသာဖြင့် ဖြေပါ။ တိုတိုရှင်းရှင်း ဖြေပါ။`;
+
 app.get('/webhook', (req, res) => {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VERIFY_TOKEN) {
@@ -20,36 +40,22 @@ app.post('/webhook', async (req, res) => {
       const event = entry.messaging[0];
       const senderId = event.sender.id;
       if (event.message?.text) {
-       const msg = event.message.text;
-        let reply = 'မင်္ဂလာပါ! ဘာများကူညီပေးရမလဲ?';
-        if (msg.includes('ဈေး') || msg.includes('price')) {
-          reply = 'ဈေးနှုန်းသိဖို့ 09-XXXXXXXXX ဆက်သွယ်ပါ';
-        } else if (msg.includes('hello') || msg.includes('မင်္ဂလာ')) {
-          reply = 'မင်္ဂလာပါ! Express Cargo Service မှ ကြိုဆိုပါတယ် 😊';
-         } else if (msg.includes('ဂျပန်') || msg.includes('japan') || msg.includes('Japan')) {
-  reply = '✈️ မြန်မာ - ဂျပန် ပို့ဆောင်ရေး ဖလိုက် ၃ မျိုး ရှိပါတယ်။\n\n' +
-    '1️⃣ EMS Flight\n' +
-    '• ၅ကီလို - ၂၆၂,၅၀၀ ကျပ်\n' +
-    '• ၁၀ကီလို - ၄၂၅,၀၀၀ ကျပ်\n' +
-    '• ၁၅ကီလို - ၆၄၅,၀၀၀ ကျပ်\n' +
-    '• ၂၀ကီလို - ၈၂၀,၀၀၀ ကျပ်\n' +
-    '• ကြာချိန် ၇-၁၀ ရက်\n\n' +
-    '2️⃣ Group Flight\n' +
-    '• ၁ကီလို - ၃၅,၀၀၀ ကျပ် (ပုံမှန်)\n' +
-    '• ၁ကီလို - ၃၉,၅၀၀ ကျပ် (အဝတ်အစား၊စာအုပ်၊အလှကုန်)\n' +
-    '• ကြာချိန် ၁၀-၁၄ ရက်\n\n' +
-    '3️⃣ ရိုးရိုး Flight\n' +
-    '• ၅ကီလို - ၂၀၅,၀၀၀ ကျပ်\n' +
-    '• ၁၀ကီလို - ၄၀၅,၀၀၀ ကျပ်\n' +
-    '• ၁၅ကီလို - ၅၅၅,၀၀၀ ကျပ်\n' +
-    '• ၂၀ကီလို - ၆၈၀,၀၀၀ ကျပ်\n' +
-    '• ကြာချိန် ဖလိုက်တင်ပြီး ၁၄ ရက်\n\n' +
-    '📞 အသေးစိတ် - 09-780 955 565';
+        const userMessage = event.message.text;
+        try {
+          const response = await client.messages.create({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 500,
+            system: SYSTEM_PROMPT,
+            messages: [{ role: 'user', content: userMessage }]
+          });
+          const reply = response.content[0].text;
+          await axios.post(
+            `https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+            { recipient: { id: senderId }, message: { text: reply } }
+          );
+        } catch (error) {
+          console.error('Error:', error);
         }
-        await axios.post(
-          `https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
-          { recipient: { id: senderId }, message: { text: reply } }
-        );
       }
     }
     res.sendStatus(200);
