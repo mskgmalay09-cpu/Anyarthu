@@ -20,13 +20,13 @@ app.post('/webhook', async (req, res) => {
       const event = entry.messaging[0];
       const senderId = event.sender.id;
       if (event.message?.text) {
-        const msg = event.message.text.toLowerCase();
+       const msg = event.message.text;
         let reply = 'မင်္ဂလာပါ! ဘာများကူညီပေးရမလဲ?';
         if (msg.includes('ဈေး') || msg.includes('price')) {
           reply = 'ဈေးနှုန်းသိဖို့ 09-XXXXXXXXX ဆက်သွယ်ပါ';
         } else if (msg.includes('hello') || msg.includes('မင်္ဂလာ')) {
           reply = 'မင်္ဂလာပါ! Express Cargo Service မှ ကြိုဆိုပါတယ် 😊';
-          } else if (msg.includes('ဂျပန်') && (msg.includes('ပို့') || msg.includes('ပို့ချင်') || msg.includes('ပို့ဆောင်'))) {
+         } else if (msg.includes('ဂျပန်') || msg.includes('japan') || msg.includes('Japan')) {
   reply = '✈️ မြန်မာ - ဂျပန် ပို့ဆောင်ရေး ဖလိုက် ၃ မျိုး ရှိပါတယ်။\n\n' +
     '1️⃣ EMS Flight\n' +
     '• ၅ကီလို - ၂၆၂,၅၀၀ ကျပ်\n' +
