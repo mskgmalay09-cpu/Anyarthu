@@ -3,7 +3,8 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const PAGE_ACCESS_TOKEN = 'နောက်မှထည့်မယ်';
+const PAGE_ACCESS_TOKEN = EAANw5phuolEBRUVOhPOPWbrpigGhKQ98n5TKO2jdjnWic9flkaNbeHk01oiURPGYdZC8NGzesW0AtY8esM6Oy1aB6AEXfnFLC8OuVa6YKOMpm9qQPQlrXnZB0HRAu4kcaSzTvPuBRq17o16oJe1DqmGZBZAqjZBvC7RGlwuwxU0YfEAdQX0I7e5wzql1aqvt4GRrC6EFBz2JSHquKEnpyJL2D
+
 const VERIFY_TOKEN = 'anyarthu_bot_2024';
 
 app.get('/webhook', (req, res) => {
