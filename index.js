@@ -4,7 +4,7 @@ const Anthropic = require('@anthropic-ai/sdk');
 const app = express();
 app.use(express.json());
 
-const PAGE_ACCESS_TOKEN = 'EAANw5phuolEBRZATSinvklp0yhMZBOmD13zoGmB2pW67llYx0rMSXVSm74wGh3APa5vfyHGCDuhzD429AIO8ZAwZAmAtemHd3vLchxfnFLjhY0qfLEFb9Wy1mGJlumkBBXQAylsBdXuDZBNGbVhDhVgDcpMGFkDLlU0LkCZBqIIQAKl5AKRHBZBRnMf1R3mwW';
+const PAGE_ACCESS_TOKEN = 'EAANw5phuolEBRSFcMkT9rZAcTQsmGlkasUO2slQcUewttrm9v4zq4qLVZBJfnfFzaifnsYO7sMAUrK44GlqTWJ2pLeZAGcVuiNwxsB8wxFRy6CL6TMa2ESaRFodmxn9zqCKqqeMBTZAnNemJWBZBlEyj7UY7IoOqxZBBEnAslZAz7RPZCH2ZAb4ROwpSCfcTW3SctTXsWeZCvYZBTN54ZC2Jh7dwtr8d'
 const VERIFY_TOKEN = 'anyarthu_bot_2024';
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
