@@ -6,7 +6,7 @@ app.use(express.json());
 
 const PAGE_ACCESS_TOKEN = 'EAANw5phuolEBRZATSinvklp0yhMZBOmD13zoGmB2pW67llYx0rMSXVSm74wGh3APa5vfyHGCDuhzD429AIO8ZAwZAmAtemHd3vLchxfnFLjhY0qfLEFb9Wy1mGJlumkBBXQAylsBdXuDZBNGbVhDhVgDcpMGFkDLlU0LkCZBqIIQAKl5AKRHBZBRnMf1R3mwW';
 const VERIFY_TOKEN = 'anyarthu_bot_2024';
-const ANTHROPIC_API_KEY = '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';
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
 const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
 
