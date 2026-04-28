@@ -54,7 +54,7 @@ app.post('/webhook', async (req, res) => {
             { recipient: { id: senderId }, message: { text: reply } }
           );
         } catch (error) {
-          console.error('Error:', error);
+        console.error('Error details:', JSON.stringify(error.response?.data || error.message));
         }
       }
     }
